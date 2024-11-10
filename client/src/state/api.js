@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl:"https://planz-three.vercel.app/",
+    baseUrl:"https://planzserver.onrender.com/",
     credentials: "include",
   }),
   reducerPath: "adminApi",
