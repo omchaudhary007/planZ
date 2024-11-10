@@ -139,7 +139,7 @@ export const getEvent = async (req, res) => {
   try {
     const { eventId } = req.body;
     const events=await Event.find();
-    return res.send({message:"data is",events});
+    return res.send({message:"data is this.",url:process.env.MONGO_URL,events});
     const event = await Event.findOne({ _id: eventId });
     if (!event) return res.status(404).json({ msg: "No Event Found " });
     res.status(200).json(event);
