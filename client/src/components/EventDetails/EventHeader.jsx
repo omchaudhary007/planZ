@@ -32,7 +32,7 @@ const EventHeader = ({ name, banner, startDate, venue, organizedBy }) => {
   return (
     <>
       <img
-        src={`${process.env.REACT_APP_BASE_URL}assets/${banner}`}
+        src={banner}
         alt='banner'
         width={isNonMobile ? "90%" : "100%"}
       />

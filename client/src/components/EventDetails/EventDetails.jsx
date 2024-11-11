@@ -49,7 +49,7 @@ const EventDetails = () => {
           >
             <EventHeader
               name={event.name}
-              banner={event.bannerName}
+              banner={event.bannerPath}
               startDate={event.startDate}
               endDate={event.endDate}
               venue={event.venue}

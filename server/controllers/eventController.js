@@ -41,8 +41,8 @@ export const createEvent = async (req, res) => {
 
     // uploading images
 
-    const bannerData= await uploadFileToCloudinary(banner.buffer,'Banners','banner');
-    const orderData= await uploadFileToCloudinary(order.buffer,'Orders','order');
+    const bannerData= await uploadFileToCloudinary(banner[0].buffer,'Banners','banner');
+    const orderData= await uploadFileToCloudinary(order[0].buffer,'Orders','order');
 
     // save data to db
     const newEvent = new Event({
@@ -77,8 +77,7 @@ export const createEvent = async (req, res) => {
       text: `Hi,\n\nA new event has been created.\n\nEvent Name: ${name}.\nCreated By: ${parsedCreator.name}.\n\nPlease Login to review or Approve the event under Approve Events Section.\nRegards Team planZ.`,
     };
     sendEmail(adminMailOptions);
-
-    res.status(201).json(savedEvent);
+    return res.status(201).json(savedEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -120,7 +119,6 @@ export const uploadPhotos = async (req, res) => {
     const photosArray = [];
     for(let photo of uploadedPhotos){
       const pic=await uploadFileToCloudinary(photo.buffer,'Event Images','events');
-      console.log(pic);
       photosArray.push({
         filename: pic.public_id,
         path: pic.url,
@@ -136,7 +134,6 @@ export const uploadPhotos = async (req, res) => {
     //send success response
     res.status(201).json(updatedEvent);
   } catch (error) {
-    console.log(error)
     res.status(500).json({ error: error.message });
   }
 };

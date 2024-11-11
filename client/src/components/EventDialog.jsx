@@ -91,7 +91,7 @@ const EventDialog = ({
               <Grid item xs={12} sm={12} md={7} lg={7}>
                 <EventHeader
                   name={params.row.name}
-                  banner={params.row.bannerName}
+                  banner={params.row.bannerPath}
                   startDate={params.row.startDate}
                   endDate={params.row.endDate}
                   venue={params.row.venue}
@@ -105,7 +105,7 @@ const EventDialog = ({
                 {showOrder && (
                   <Link
                     style={{ textDecoration: "none" }}
-                    to={`${process.env.REACT_APP_BASE_URL}assets/${params.row.orderName}`}
+                    to={params.row.orderPath}
                     target='_blank'
                     rel='noreferrer'
                   >
