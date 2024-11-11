@@ -7,12 +7,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import multer from "multer";
 import sharp from "sharp";
-import { v4 as uuidv4 } from "uuid";
-import cookieParser from "cookie-parser";
+import { v2 as cloudinary } from 'cloudinary';
 
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
+import cookieParser from "cookie-parser";
 
 import credentials from "./middleware/credentials.js";
 import corsOptions from "./config/corsOptions.js";
@@ -27,10 +24,10 @@ import { createEvent, uploadPhotos } from "./controllers/eventController.js";
 import { uploadReport } from "./controllers/eventController.js";
 import { checkRole } from "./middleware/authMiddleware.js";
 import { eventValidationRules } from "./middleware/validationMiddleware.js";
+import verifyType from "./utils/verifyType.js";
+import multerError from "./middleware/multerError.js";
 
-// CONFIGURATION
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 
 //middleware
 dotenv.config();
@@ -46,37 +43,41 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-//set directory of where we store files
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
-// FILE STORAGE CONFIGURATIONS
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/assets");
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname +
-        "-" +
-        uuidv4() +
-        "-" +
-        Date.now() +
-        path.extname(file.originalname)
-    );
-  },
+// cloudinary config
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const upload = multer({ storage });
-
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  limits: { fileSize: 1 * 1024 * 1024 }, // 1MB size limit
+});
 
 // ROUTES WITH FILE UPLOADS
 app.post(
   "/event/createEvent",
   checkRole(["convenor", "member"]),
-  upload.fields([
-    { name: "banner", maxCount: 1 },
-    { name: "order", maxCount: 1 },
+  (req, res, next) => {
+    upload.fields([
+      { name: "banner", maxCount: 1 },
+      { name: "order", maxCount: 1 },
+    ])(req, res, (err) => {
+      if (err) {
+        return multerError(err, req, res, next);
+      }
+      next();
+    });
+  },
+  verifyType([
+    {
+      name: "banner",
+      allowedType: ["image/jpeg", "image/png", "image/jpg", "image/webp"],
+    },
+    { name: "order", allowedType: ["application/pdf"] },
   ]),
   eventValidationRules,
   createEvent
@@ -84,13 +85,37 @@ app.post(
 app.post(
   "/event/uploadReport",
   checkRole(["convenor", "member"]),
-  upload.single("report"),
+  (req,res,next)=>{
+    upload.single("report")
+    (req,res,(err)=>{
+      if(err){
+        return multerError(err,req,res,next);
+      }
+      if(!req.file?.report || req.file.report.mimetype!=="application/pdf"){
+        return res.status(400).send({
+          success:false,
+          message:'Report should be in PDF form.'
+        });
+      }
+      next();
+    })
+  },
+  verifyType([{name:'report',allowedType:['application/pdf']}]),
   uploadReport
 );
 app.post(
   "/event/uploadPhotos",
   checkRole(["convenor", "member"]),
-  upload.array("photos"),
+  (req,res,next)=>{
+    upload.array("photos")
+    (req,res,(err)=>{
+      if(err){
+        return multerError(err,req,res,next);
+      }
+      next();
+    })
+  },
+  verifyType([{name:'photos',allowedType: ["image/jpeg", "image/png", "image/jpg", "image/webp"]}]), 
   uploadPhotos
 );
 
@@ -100,6 +125,12 @@ app.use("/admin", adminRoutes);
 app.use("/events", eventRoutes);
 app.use("/user", userRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use("*", (req, res) => {
+  res.status(404).send({
+    success: false,
+    message: "Page Not Exists!",
+  });
+});
 // MONGOOSE Setup
 
 const PORT = process.env.PORT || 9000;

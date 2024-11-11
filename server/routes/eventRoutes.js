@@ -12,6 +12,7 @@ import {
   getEvent,
 } from "../controllers/eventController.js";
 import { checkRole } from "../middleware/authMiddleware.js";
+
 const router = express.Router();
 
 router.get("/unapprovedEvents", checkRole(["admin"]), getUnApprovedEvents);

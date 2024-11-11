@@ -8,7 +8,7 @@ export const checkRole = (roles) => {
     const userClient = req.headers["user-agent"] || "";
     const isBrowser = clientDetector(userClient);
     if (isBrowser) token = req.cookies.jwt;
-    else token = req?.headers?.authorization.split(" ")[1]; // bearer token
+    else token = (req.headers?.authorization)? req.headers.authorization.split(" ")[1] :undefined; // bearer token
     
     if (token) {
       try {
