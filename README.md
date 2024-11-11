@@ -2,7 +2,7 @@
 
 **planZ** is a comprehensive event management application tailored for college environments, designed to streamline the planning, coordination, and analysis of events across various committees and departments. Built with the MERN stack and Material UI, planZ offers a user-friendly, mobile-app-like experience, making it highly accessible and efficient for both organizers and participants.
 
-[**Live Demo**](https://your-live-link.com) - Check out the live version of the application.
+[**Live Demo**](https://planz-three.vercel.app/) - Check out the live version of the application.
 
 ## Key Features
 
