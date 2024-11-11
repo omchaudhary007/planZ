@@ -4,6 +4,10 @@
 
 [**Live Demo**](https://planz-three.vercel.app/) - Check out the live version of the application.
 
+## Watch the Demo
+
+[![Watch Demo](https://img.youtube.com/vi/ULNeFMfLBXs/maxresdefault.jpg)](https://youtu.be/ULNeFMfLBXs)
+
 ## Key Features
 
 ### 1. Role-Based Access and Responsibilities
