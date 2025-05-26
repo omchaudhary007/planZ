@@ -53,7 +53,7 @@
 - **Progressive Web App (PWA)**: Ensures smooth performance on both desktop and mobile devices.
 
 ## Use Case and Benefits
-- PlanZ is ideal for colleges looking to manage and track events across different departments and branches.
+- PlanZ is ideal for Colleges looking to manage and track events across different departments and branches.
 - The application provides centralized control over event planning and allows detailed insights for continuous improvement.
 - PlanZ simplifies event participation, management, and reporting, contributing to smoother event execution and enhanced organization.
 
