@@ -12,9 +12,7 @@ import React from "react";
 
 const About = () => {
   const theme = useTheme();
-
   const isNonMobile = useMediaQuery("(min-width: 600px)");
-
   const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChange = (panel) => (event, newExpanded) => {
@@ -37,15 +35,15 @@ const About = () => {
           }}
         >
           <AccordionSummary
-            aria-controls='panel1d-content'
-            id='panel1d-header'
+            aria-controls="panel1d-content"
+            id="panel1d-header"
             expandIcon={<ExpandMoreIcon />}
           >
             <Typography
-              fontSize='1.1rem'
-              textDecoration='underline'
-              fontWeight='bold'
-              width='90%'
+              fontSize="1.1rem"
+              textDecoration="underline"
+              fontWeight="bold"
+              width="90%"
               color={theme.palette.secondary.main}
             >
               ABOUT planZ
@@ -53,11 +51,7 @@ const About = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
+              planZ is a web app to help colleges plan and manage events. It lets admins, convenors, and members handle event creation, approvals, and participation. The platform keeps everything organized and improves how college events are managed and tracked from start to finish.
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -70,15 +64,15 @@ const About = () => {
           }}
         >
           <AccordionSummary
-            aria-controls='panel2d-content'
-            id='panel2d-header'
+            aria-controls="panel2d-content"
+            id="panel2d-header"
             expandIcon={<ExpandMoreIcon />}
           >
             <Typography
-              fontSize='1.1rem'
-              textDecoration='underline'
-              fontWeight='bold'
-              width='90%'
+              fontSize="1.1rem"
+              textDecoration="underline"
+              fontWeight="bold"
+              width="90%"
               color={theme.palette.secondary.main}
             >
               DEVELOPED BY
@@ -86,11 +80,7 @@ const About = () => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
+              Developed by Om, a full-stack developer skilled in React, Node.js, and MongoDB. Focused on building practical, easy-to-use applications. planZ was created to solve real problems in college event coordination, making event tasks simpler for everyone involved.
             </Typography>
           </AccordionDetails>
         </Accordion>
